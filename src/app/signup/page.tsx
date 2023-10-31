@@ -4,8 +4,7 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import {toast} from "react-hot-toast";
-
+import { toast } from "react-hot-toast";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -16,29 +15,33 @@ export default function SignupPage() {
   });
 
   const [buttonDisabled, setbuttonDisabled] = React.useState(false);
-  const [loading , setloading] = React.useState(false);
+  const [loading, setloading] = React.useState(false);
 
   const onSignup = async () => {
     try {
       setloading(true);
-      const response = await axios.post("/api/users/signup", user)
+      const response = await axios.post("/api/users/signup", user);
       console.log("Signup success", response.data);
       router.push("/login");
-    } catch (error:any) {
-      console.log("Signup failed",error.message);
+    } catch (error: any) {
+      console.log("Signup failed", error.message);
       toast.error(error.message);
-    }finally{
+    } finally {
       setloading(false);
     }
   };
 
-  useEffect(()=>{
-    if(user.email.length > 0 && user.password.length > 0 && user.username.length > 0){
+  useEffect(() => {
+    if (
+      user.email.length > 0 &&
+      user.password.length > 0 &&
+      user.username.length > 0
+    ) {
       setbuttonDisabled(false);
-    }else{
+    } else {
       setbuttonDisabled(true);
     }
-  },[user]);
+  }, [user]);
 
   return (
     <div className=" flex flex-col items-center justify-center min-h-screen py-2">
